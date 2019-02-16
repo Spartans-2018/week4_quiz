@@ -90,7 +90,13 @@ class Controller:
         if movie_dict["Director"]!='N/A':
             direct_list=movie_dict['Director'].split()
             first_name=direct_list[0]
-            last_name=direct_list[1]
+            if len (direct_list)<=2:
+                last_name=direct_list[1]
+            else:
+                last_name=''
+                for n in range(1, len(direct_list)):
+                    last_name=last_name+direct_list[n]+' '
+
             
 
         else:
@@ -105,7 +111,17 @@ class Controller:
             actors_list=movie_dict["Actors"].split(',')
             for actor in actors_list:
                 first_name=actor.split()[0]
-                last_name=actor.split()[1]
+                if len(actor.split())==1:
+                    last_name='N/A'
+                elif len(actor.split())<=2:
+                    last_name=actor.split()[1]
+                
+                else:
+                    last_name=''
+                    for n in range(1, len(actor.split())):
+                        last_name=last_name+ actor.split()[n]+' '
+
+
                 Dao.save_actor(first_name, last_name)
         else:
             first_name='N/A'
@@ -128,7 +144,15 @@ class Controller:
                 conn=Controller.get_connection()
                 c=conn.cursor()
                 first_name=actor.split()[0]
-                last_name=actor.split()[1]
+                if len(actor.split())==1:
+                    last_name='N/A'
+                elif len(actor.split())<=2:
+                    last_name=actor.split()[1]
+                
+                else:
+                    last_name=''
+                    for n in range(1, len(actor.split())):
+                        last_name=last_name+ actor.split()[n]+' '
                 
                 actor_cur=c.execute(sql1, (first_name, last_name))
                 actor_id=actor_cur.fetchone()[0]
@@ -150,7 +174,12 @@ class Controller:
             c=conn.cursor()
             direct_list=movie_dict['Director'].split()
             first_name=direct_list[0]
-            last_name=direct_list[1]
+            if len (direct_list)<=2:
+                last_name=direct_list[1]
+            else:
+                last_name=''
+                for n in range(1, len(direct_list)):
+                    last_name=last_name+direct_list[n]+' '
                 
             direct_cur=c.execute(sql1, (first_name, last_name))
             director_id=direct_cur.fetchone()[0]
